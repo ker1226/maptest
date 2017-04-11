@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Blank App</title>
+		<style>
+			#map {
+				height: 400px;
+				width: 100%;
+			}
+		</style>     
+    </head>
+    <body>
+    	<h3>My Google Maps Demo</h3>
+		<button onclick="findCurrentLocation();">Find My Position</button>
+		<div id="map"></div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript">
+			var crd;
+
+			var options = {
+				enableHighAccuracy: true,
+				timeout: 5000
+			}
+
+			function success(pos) {
+				crd = pos.coords;
+				initMap(crd.latitude,crd.longitude);
+				// alert('button pressed!!');
+			}
+
+			function error(err) {
+				console.warn(`ERROR(${err.code}): ${err.message}`);
+			}
+
+			function initMap(lat,lng) {
+				var coords = {lat: lat, lng: lng};
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 18,
+					center: coords
+				});
+				var marker = new google.maps.Marker({
+					position: coords,
+					map: map
+				});
+			}
+
+			function findCurrentLocation() {
+				navigator.geolocation.getCurrentPosition(success,error,options);
+			}
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNKd8df93aaVLAdbC0mpa5GlPZk_EO42Y&callback="></script>
+    </body>
+</html>
